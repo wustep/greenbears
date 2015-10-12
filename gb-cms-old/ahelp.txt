@@ -1,0 +1,21 @@
+CKEditor Interface Help - http://docs.cksource.com/CKEditor_3.x/Users_Guide
+
+Editting
+* Use ctrl + right click to access the browser context menu, allowing pasting as plain text and spellcheck corrections (if your browser supports them). 
+* All external links automatically open in a new tab.
+* It's possible to copy paste from Excel. However, the formatting doesn't stay. One odd workaround is to copy paste from Excel into Word, then copy paste it from there.
+* Use Shift+Enter to add a new line without extra space.
+
+Referencing
+* Uploading, linking, and referencing files in the server can be done in the Image and Link interfaces. Press the "Browse Server" button.
+** To link to an internal page (like a news page), set the Protocol to "Other" and then type in the page after the slash, e.g. "news?title=test". 
+* To add youtube videos or other "iframes", copy the embed code (for youtube, it's under share), then press the source button in the editor, and then paste the code where desired.
+
+Misc
+* Mobile/tablet support is pretty much hit and miss. If the editor isn't showing up, try requesting the desktop site on your browser.
+
+
+CKFinder Interface Help - /scripts/ckfinder/help/en/
+
+* Note that this is a evaluation version, as is CKEditor; it prevents moving files, but both give all the necesary features. 
+* Mobiles and other devices are supported. Click the black triangle to access the file context menu.

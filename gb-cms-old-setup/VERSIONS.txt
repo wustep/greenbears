@@ -1,0 +1,10 @@
+# Versions
+
+HTML5Boilerplate v4.2.0     - http://html5boilerplate.com/
+-jQuery 1.9.1
+-Modernizr 2.6.2
+-Normalize.css 1.1.1
+CKEditor 4.0.2              - http://ckeditor.com/download
+CKFinder 2.3.1              - http://cksource.com/ckfinder
+jQuery-File-Upload 7.4.1    - https://github.com/blueimp/jQuery-File-Upload
+Font Awesome 3.2.1          - http://fortawesome.github.io/Font-Awesome/
