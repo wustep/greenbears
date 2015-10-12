@@ -1,12 +1,12 @@
 # Setup
 
-0. Install webhost if necessary. e.g. XAMPP - https://www.apachefriends.org/index.html
+0. Install webhost if needed e.g. XAMPP - https://www.apachefriends.org/index.html
 
 1. Copy contents of 'gb-cms-old' to desired directory
 
 2. Create new schema. Edit scripts/functions.php $mysql variables at top to correct database settings.
 
-3. Run 'MYSQL.sql' at that schema.
+3. Run 'MYSQL.sql' for that schema. 
 
 4. To create a season, run the SQL below with the desired settings or manually add it into `seasons`. 
   Seasons is (id,type,year), Pages is (page,text,editor,edited). 
@@ -26,6 +26,6 @@ For example, set $secret to "your_desired_password", then go to acreate?s=your_d
 # Optional
 
 1. Add tracking scripts (google analytics, etc.) to footer.php if desired
-2.. Change colors/background if desired! Default colors are at img/colorscheme.png. Background is at img/background.png; it repeats at the bottom of the screen.
-3.. Supress PHP errors if desired - https://stackoverflow.com/questions/332178/best-way-to-suppress-php-errors-on-production-servers
+2. Change colors/background if desired! Default colors are at img/colorscheme.png. Background is at img/background.png; it repeats at the bottom of the screen.
+3. Supress PHP errors if desired - https://stackoverflow.com/questions/332178/best-way-to-suppress-php-errors-on-production-servers
 4. Add in a favicon - favicon.ico in main directory is default
