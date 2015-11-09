@@ -6,5 +6,5 @@
 	$mysql_db = "gbcms";
 
 	// Base URL - probably where this file is held. Make sure you have the trailing slash ('/') at the end.
-	$url = 'localhost/gb-cms/';
+	$url = 'http://localhost/gb-cms/';
 ?>
