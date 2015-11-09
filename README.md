@@ -12,3 +12,5 @@ http://greenbears.us: used for the Ottawa Hills HS cross-country ('13, '14) and 
 - note: backups, password resets, season management are done manually through SQL (instructions to come)
 - development began in March 2013, launched August 2013
 - after adding in multiple-sport support, this project will be completed
+ 
+![gbcms demo](http://wustep.us/img/portfolio/gbcms.png "gbcms demo")
