@@ -1,8 +1,4 @@
--- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
---
--- Host: localhost    Database: gb-cms
--- ------------------------------------------------------
--- Server version	5.5.27
+-- MySQL dump - follow instructions in SETUP.md
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -61,8 +57,27 @@ DROP TABLE IF EXISTS `seasons`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `seasons` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` int(3) NOT NULL,
-  `year` int(11) NOT NULL,
+  `date` varchar(20) NOT NULL,
+  `sport` int(11) NOT NULL,
+  `pos` int(11) NOT NULL,
+  `text` text NOT NULL,
+  `editor` int(11) NOT NULL,
+  `edited` int(11) NOT NULL,  
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `sports`
+--
+
+DROP TABLE IF EXISTS `sports`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sports` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `short` varchar(5) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;

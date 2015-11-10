@@ -10,10 +10,11 @@
     Sara Nida - Cross Country and Track Coach
     David Hertz - Cross Country and Track Coach
     Nancy Baumbarger - Cross Country and Track Coach
+    Rachel Wanner - Track Coach
 	
 /* SITE */
 	Started: 2013/03/10
-    Last Update: 2015/10/11
+    Last Update: 2015/11/10
     Standards: HTML5, CSS3
     Components: html5boilerplate, Normalize.css,
                 jQuery, Modernizr,

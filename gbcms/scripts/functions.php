@@ -80,4 +80,18 @@
 		}
 		return $output;
 	}
+	
+	function getSport($ssport,$sdate) { // get name of sport given the sport id & year
+		global $mysqli;
+		global $title; // return to fallback title
+		if ($stmt = $mysqli->prepare("SELECT name, short FROM sports WHERE id=? LIMIT 1")) {
+			$stmt->bind_param("i", $ssport);
+			$stmt->execute();
+			$stmt->bind_result($sname, $sshort);
+			$stmt->fetch();
+			$stmt->close();
+			if (isset($sname)) return "$sname $sdate";
+		}
+		return $title;
+	}
 ?>

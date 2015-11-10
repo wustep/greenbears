@@ -1,12 +1,12 @@
 <?php
 	$page = "season";
 	require_once("scripts/functions.php");	
-	//0 = XC, 1 = track
-	if ($stmt = $mysqli->prepare("SELECT id,type,year FROM seasons ORDER BY year DESC, type ASC")) {
+	if ($stmt = $mysqli->prepare("SELECT seasons.id,date,sport,name,short,text FROM seasons JOIN sports ON seasons.sport=sports.id ORDER BY pos DESC")) {
 		$stmt->execute();
 		$stmt->store_result();
 		if ($stmt->num_rows > 0) {
-			$stmt->bind_result($id,$type,$year);
+			$stmt->bind_result($id,$date,$sport,$name,$short,$text);
+			$type = 1;
 			$i = 0;
 			if (!isset($_SESSION)) {
 				 session_start();
@@ -22,7 +22,7 @@
 						$i++;
 					}
 					$nav .= "
-				<a href='season?s=".($type == 1 ? 'TF' : 'XC').$year."'>".$year." ".($type == 1 ? 'Track and Field' : 'Cross Country')."</a>";
+				<a href='season?s=".$short.$date."'>".$date." ".$name."</a>";
 				}
 				if (isset($_SESSION['acp-id'])) {
 					$nav .= "<br/><a href='seasons?manage'>Manage Seasons</a>";
@@ -31,19 +31,19 @@
 		";
 			} else if (isset($_SESSION['acp-id']) && isset($_GET['manage'])) { // if viewing "Manage Seasons" page
 				$title = "Manage Seasons";
-				$nav = "	<h3>Manage Seasons</h3><p>(This is disabled! Please let Stephen know if you have to add seasons.)<br/>Note that creating a new season will hide all old news.<br/>
+				$nav = "	<h3>Manage Seasons</h3><p>(This is disabled & coming soon!)<br/>Note that creating a new season will hide all old news.<br/>
 			<form method='post' id='seasons'><table class='seasons'><thead>
-				<tr style='border-bottom:1px solid black;'><th>type</th><th>year</th><th></th></tr>";
+				<tr style='border-bottom:1px solid black;'><th>type</th><th>date</th><th></th></tr>";
 				while ($stmt->fetch()) {
 					$nav .= "
-				<tr><th>".($type == 1 ? 'TF' : 'XC')."</th><th>".$year."</th><th><a class='del-season' href='seasons?manage&amp;del=".$id."' id='".($type == 1 ? 'TF' : 'XC').$year."'><i class='icon-ban-circle season-btn'></i></a></th></tr>";
+				<tr><th>".$short."</th><th>".$date."</th><th><a class='del-season' href='seasons?manage&amp;del=".$id."' id='".$short.$date."'><i class='icon-ban-circle season-btn'></i></a></th></tr>";
 				}
 				$nav .= "
-				<tr><th><select class='sinput'><option>TF</option><option>XC</option></select></th><th><input type='number' id='syear' class='sinput' value='".date('Y')."' min='".(date('Y') - 50)."' max='".(date("Y") + 1)."'/></th><th><a href='#' class='add-season'><i class='icon-plus season-btn'></i></a></th></tr>
+				<tr><th><select class='sinput'><option>TF</option><option>XC</option></select></th><th><input type='number' id='sdate' class='sinput' value='".date('Y')."' min='".(date('Y') - 50)."' max='".(date("Y") + 1)."'/></th><th><a href='#' class='add-season'><i class='icon-plus season-btn'></i></a></th></tr>
 			</thead></table></form>
 			<script type='text/javascript'>
 				$(function() {
-					$('#syear').keyup(function(e){
+					$('#sdate').keyup(function(e){
 						if ($(this).val().length >= 5) { 
 							$(this).val($(this).val().substr(0, 4));
 						}
@@ -63,15 +63,16 @@
 				});
 			</script>
 		";
-			} else { // lotsa redundancy, remake this better later
+			} else { // otherwise display season page - some redundancy	
 				$edit = 1;
-				$stype = -1;
+				$stype = -1; // -1 = invalid/empty URL - go to current season
 				// step 1: see if season is set in url, parse
-				if (isset($_GET['s'])) { // if season is there, check if season is valid and break it down into variables if so, otherwise get current season
+				if (isset($_GET['s']) && strlen($_GET['s']) > 3) { // if season is there, check if season is valid and break it down into variables if so, otherwise get current season
 					$get_type = strtoupper(substr($_GET['s'], 0, 2));
-					$syear = substr($_GET['s'], 2, 4);
-					if (($get_type == 'XC' || $get_type == 'TF') && ctype_digit($syear)) {
-						$stype = $get_type == 'TF' ? 1 : 0;
+					$get_date = substr($_GET['s'], 2);
+					if (ctype_alpha($get_type) && preg_match("#^[a-zA-Z0-9'-]+$#",$get_date)) {
+						$stype =  1;
+						
 					}
 				}
 				// step 2: get id
@@ -79,20 +80,19 @@
 				while ($stmt->fetch()) {
 					if ($i == 0) {
 						$new_season = $id;
-						$season = ($type == 1 ? 'TF' : 'XC').$year;
+						$season = $type.$date;
 						$season_type = $type;
-						$season_year = $year;
+						$season_date = $date;
 						if ($stype == -1) {
 							break;
 						}
 						$i++;
 					}
-					if ($stype == $type && $syear == $year) {
+					if ($get_type == $short && $get_date == $date) {
 						$sid = $id;
-						$season = $get_type.$syear;
+						$season = $get_type.$get_date;
 						$season_type = $type;
-						$season_year = $year;
-						//$page .= "?s=$get_type$syear";
+						$season_date = $date;
 						break;
 					}					
 				}
@@ -102,7 +102,7 @@
 				// step 4: display nav and page
 				$edit_page = $season;
 				if (!isset($_GET['edit']) || (isset($_GET['edit']) && !isset($_SESSION['acp-id']))) {
-					$season2 = ($type == 1 ? 'Track and Field ' : 'Cross Country ').$season_year;
+					$season2 = ($type == 1 ? 'Track and Field ' : 'Cross Country ').$season_date;
 					$title = $season2;
 					if ($stmt2 = $mysqli->prepare("SELECT editor,edited FROM pages WHERE page=?")) { // some redundancy with this and edit.php loaded in footer, maybe fix
 						$stmt2->bind_param("s", $season);

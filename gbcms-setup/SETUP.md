@@ -8,13 +8,15 @@
 
 3. Run 'MYSQL.sql' for that schema. 
 
-4. To create a season, run the SQL below with the desired settings or manually add it into `seasons`. 
-  Seasons is (id,type,year), Pages is (page,text,editor,edited). 
-  Change `seasons` type & year. 0 is cross-country, 1 is track & field. 
-  Change `pages` page = 'xcYEAR' or 'tfYEAR', e.g. 'xc2015', 'tf2013', etc.
+4. Create sports. See SPORTS.sql
 
-  INSERT INTO `seasons` VALUES (1,0,2015);
-  INSERT INTO `pages` VALUES ('xc2015','',0,0);
+4. To create a season, run the SQL below with the desired settings or manually add it into `seasons`. 
+  Seasons is (id,type,year). 
+  Use sport from step 4 
+  Date should only include 0-10 characters of letters, numbers, dashes, and single-quotes, and it's up to you how you want to approach this. The year will appear on titles and the season list.
+  * If you don't want to use dates, that's fine! Just leave it empty. It's probably best to use years like 2015 OR 2014-15 OR '14-'15
+
+  INSERT INTO `seasons` (`date`, `sport`, `pos`) VALUES ('2015', 1, 0);
 
 5. Go to header.php. Change description & website title. Go to index.php and change $title. 
 

@@ -7,10 +7,10 @@
 	if (!isset($_SESSION)) {
 		 session_start();
 	}
-	if ($sstmt = $mysqli->prepare("SELECT id FROM seasons ORDER BY year DESC, type ASC LIMIT 1")) { // get seasonid, put into $sid
+	if ($sstmt = $mysqli->prepare("SELECT id,date,sport FROM seasons ORDER BY pos DESC LIMIT 1")) { // get seasonid, put into $sid
 		$sstmt->execute();
 		$sstmt->store_result();
-		$sstmt->bind_result($sid);
+		$sstmt->bind_result($sid,$sdate,$ssport);
 		$sstmt->fetch();
 		$sstmt->close();
 	}
@@ -169,7 +169,9 @@
 ";
 		$news_page = (isset($_GET['p']) && $_GET['p'] > 0) ? intval($_GET['p']) : 0; // current page # (starts at 0)
 		$season_check = isset($_SESSION['acp-id']) ? "" : " WHERE season = '0' OR season = '$sid'"; // Show all articles for admins and "permanent articles" & current seasons for users
-		if ($stmt0 = $mysqli->prepare("SELECT id FROM news$season_check")) { // TODO: maybe some redundancy here? could do 1 query + for/while loop, but more troublesome
+		if (isset($sid) && $stmt0 = $mysqli->prepare("SELECT id FROM news$season_check")) { // TODO: maybe some redundancy here? could do 1 query + for/while loop, but more troublesome
+			$getSport = getSport($ssport,$sdate);
+			$title = $getSport;
 			$stmt0->execute();
 			$stmt0->store_result();
 			$news_pages = ceil($stmt0->num_rows / 5) - 1; // # of pages (starts at 0)

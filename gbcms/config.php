@@ -7,4 +7,7 @@
 
 	// Base URL - probably where this file is held. Make sure you have the trailing slash ('/') at the end.
 	$url = 'http://localhost/gbcms/';
+	
+	// Meta description
+	$desc = 'Greenbears CMS';
 ?>
