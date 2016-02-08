@@ -1,12 +1,11 @@
 <?php
 	$page = "season";
 	require_once("scripts/functions.php");	
-	if ($stmt = $mysqli->prepare("SELECT seasons.id,date,sport,name,short,text FROM seasons JOIN sports ON seasons.sport=sports.id ORDER BY pos DESC")) {
+	if ($stmt = $mysqli->prepare("SELECT seasons.id,date,sport,name,short FROM seasons JOIN sports ON seasons.sport=sports.id ORDER BY pos DESC")) {
 		$stmt->execute();
 		$stmt->store_result();
 		if ($stmt->num_rows > 0) {
-			$stmt->bind_result($id,$date,$sport,$name,$short,$text);
-			$type = 1;
+			$stmt->bind_result($id,$date,$type,$name,$short);
 			$i = 0;
 			if (!isset($_SESSION)) {
 				 session_start();
@@ -63,7 +62,7 @@
 				});
 			</script>
 		";
-			} else { // otherwise display season page - some redundancy	
+			} else { // otherwise display season page - big mess now but it works :(
 				$edit = 1;
 				$stype = -1; // -1 = invalid/empty URL - go to current season
 				// step 1: see if season is set in url, parse
@@ -78,9 +77,9 @@
 				// step 2: get id
 				$i = 0;
 				while ($stmt->fetch()) {
-					if ($i == 0) {
-						$new_season = $id;
-						$season = $type.$date;
+					if ($i == 0) { // Get priority season
+						$sid = $id;
+						$season = $short.$date;
 						$season_type = $type;
 						$season_date = $date;
 						if ($stype == -1) {
@@ -88,21 +87,19 @@
 						}
 						$i++;
 					}
-					if ($get_type == $short && $get_date == $date) {
+					else if ($get_type == $short && $get_date == $date) { // If season matches
 						$sid = $id;
-						$season = $get_type.$get_date;
+						$season = $short.$date;
+						$page = "season?s=".$season;
 						$season_type = $type;
 						$season_date = $date;
 						break;
 					}					
 				}
-				if (!isset($sid)) { // step 3: if step 1 or 2 failed, get id of newest season
-					$sid = $new_season;
-				}
 				// step 4: display nav and page
 				$edit_page = $season;
 				if (!isset($_GET['edit']) || (isset($_GET['edit']) && !isset($_SESSION['acp-id']))) {
-					$season2 = ($type == 1 ? 'Track and Field ' : 'Cross Country ').$season_date;
+					$season2 = getSport($season_type,$season_date);
 					$title = $season2;
 					if ($stmt2 = $mysqli->prepare("SELECT editor,edited FROM pages WHERE page=?")) { // some redundancy with this and edit.php loaded in footer, maybe fix
 						$stmt2->bind_param("s", $season);

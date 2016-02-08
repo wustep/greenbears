@@ -17,6 +17,7 @@
 	function getName($id) {
 		global $mysqli;
 		$name = 'Someone';
+		if (!isset($id) || $id == 0 || $id == '') return $name;
 		if ($stmt = $mysqli->prepare("SELECT name FROM users WHERE id=?")) {
 			$stmt->bind_param("i", $id);
 			$stmt->execute();

@@ -157,7 +157,7 @@
     </head>
     <body>
         <div class="container">
-			<img src="img/hedgehog.png" style="width: 236px; height: 262px; margin: 0 auto; display: block;"/>
+			<img src="/gbcms/img/hedgehog.png" style="width: 236px; height: 262px; margin: 0 auto; display: block;"/>
             <h1>Not found <span>:(</span></h1>
             <p>Sorry, but the page you were trying to view does not exist.</p>
             <p>This may have been the result of either:</p>

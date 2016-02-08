@@ -1,6 +1,9 @@
 <?php
-	if (!isset($title) || !isset($text)) { header("Location: ./"); echo "Something went wrong!"; exit; }
+	if (!isset($title) || !isset($text)) {
+		header("Location: ./"); echo "Something went wrong!"; exit; 
+	}
 	if ((isset($edit_title) && $edit_title != '') || (!isset($edit_title) && $page != "acp")) { // don't show if you're posting something new (edit_title is empty) or you're on the ACP (bulletin)
+	require_once("functions.php");
 ?>
 	<p>You are currently editing <b><?=isset($edit_title) ? $edit_title : (isset($edit_page) ? $edit_page : ucfirst($page))?>.</b></p>
 <?php
@@ -10,22 +13,22 @@
 	<script type="text/javascript" src="scripts/ckfinder/ckfinder.js"></script>
 	<form method="post">
 <?php
-	if (isset($edit_title)) { // edit_title enabled = ''
+	if (isset($edit_title)) { // edit_title enabled = '' i.e. if this is an announcement
 ?>
 		<input placeholder="Announcement Title" type="text" name="title" id="title" value="<?=$edit_title?>" size="70"/>
 <?php
-		if ($stmts = $mysqli->prepare("SELECT id,type,year FROM seasons ORDER BY year DESC, type ASC")) {
+		if ($stmts = $mysqli->prepare("SELECT seasons.id,sports.id,sport,date FROM seasons JOIN sports ON seasons.sport=sports.id ORDER BY pos DESC")) {
 			echo "		<select name='season'>
 ";
 			$stmts->execute();
 			$stmts->store_result();
 			if ($stmts->num_rows > 0) {
-				$stmts->bind_result($id,$type,$year);
+				$stmts->bind_result($id,$sportid,$sport,$date);
 				$selected1 = (isset($nseason) && $nseason == 0) ? " class='select' selected" : ""; // If the news article is pinned, select pinned
 				echo "		<option value='0'$selected1>Pinned</option>
 ";
 				while ($stmts->fetch()) {
-					$option_season = ($type == 1 ? 'Track and Field ' : 'Cross Country ').$year;
+					$option_season = getSport($sportid,$date);
 					$selected2 = ((isset($nseason) && $nseason == $id) || (!isset($nseason) && $id == $sid)) ? " class='select' selected" : ""; // Select news' season or current season if not available
 					echo "		<option value='$id'$selected2>$option_season</option>
 ";
