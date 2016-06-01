@@ -8,7 +8,7 @@ CMS supports multiple sports with little setup time!
 - multi-season support & project completed February 2016
 - code is a little messy but it works!
 
-![gbcms demo](http://wustep.us/img/portfolio/gbcms.png "gbcms demo")
+![gbcms demo](http://wustep.us/assets/img/portfolio/gbcms.png "gbcms demo")
 
 # why 'Greenbears'?
 Green Bears were my HS mascot and where this all started!
