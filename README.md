@@ -1,7 +1,7 @@
 # greenbears
 Sports content management system - manage news, seasons, records, contact - supports multiple seasons &amp; sports
 
-[Live Demo](http://wustep.us/gb/)
+[Live Demo](http://wustep.me/gb/)
 
 # /gbcms/
 CMS supports multiple sports with little setup time!
